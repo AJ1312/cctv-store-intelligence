@@ -1,0 +1,31 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# IDE and System files
+.DS_Store
+.vscode/
+.idea/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Temporary SQLite files
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Keep local database and events (explicitly NOT ignored)
+!store_intel.db
+!events/events.jsonl
+!yolov8n.pt

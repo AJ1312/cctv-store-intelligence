@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purplle Store Intelligence · Brigade Bangalore</title>
+  <meta name="description" content="Real-time retail analytics dashboard for Purplle Brigade Bangalore store — visitor tracking, zone heatmap, conversion funnel, and live anomaly detection." />
+  <meta name="theme-color" content="#0d0f17" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="header" id="header">
+    <div class="header-brand">
+      <div class="brand-logo">
+        <span class="logo-p">P</span>
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-name">Purplle Intelligence</h1>
+        <p class="brand-sub">Brigade Bangalore · ST1008 · Brigade Road</p>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="live-indicator" id="liveIndicator">
+        <span class="pulse-dot"></span>
+        <span>LIVE</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="date-display" id="dateDisplay">—</div>
+      <div class="clock" id="clock">—</div>
+      <div class="api-status" id="apiStatus">
+        <span class="status-dot status-connecting"></span>
+        <span id="apiStatusText">Connecting…</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main Content ── -->
+  <main class="main" id="main">
+
+    <!-- ── KPI Row ── -->
+    <section class="kpi-row" id="kpiRow" aria-label="Key Performance Indicators">
+      <div class="kpi-card" id="kpiVisitors">
+        <div class="kpi-icon">👥</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Unique Visitors</div>
+          <div class="kpi-value" id="kpiVisitorsVal">—</div>
+          <div class="kpi-sub" id="kpiVisitorsSub">Today</div>
+        </div>
+        <div class="kpi-sparkline" id="sparklineVisitors"></div>
+      </div>
+
+      <div class="kpi-card kpi-accent" id="kpiConversion">
+        <div class="kpi-icon">🎯</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Conversion Rate</div>
+          <div class="kpi-value" id="kpiConversionVal">—</div>
+          <div class="kpi-sub" id="kpiConversionSub">Visitors → Purchase</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" id="kpiQueue">
+        <div class="kpi-icon">🧾</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Queue Depth</div>
+          <div class="kpi-value" id="kpiQueueVal">—</div>
+          <div class="kpi-sub">Cash Counter · Live</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" id="kpiAbandonment">
+        <div class="kpi-icon">🚶</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Abandonment Rate</div>
+          <div class="kpi-value" id="kpiAbandonmentVal">—</div>
+          <div class="kpi-sub">Queue drop-off</div>
+        </div>
+      </div>
+
+      <div class="kpi-card kpi-gmv" id="kpiGMV">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Converted Visitors</div>
+          <div class="kpi-value" id="kpiGMVVal">—</div>
+          <div class="kpi-sub">With POS match</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Middle Row: Floor Map + Funnel ── -->
+    <section class="mid-row">
+
+      <!-- Store Floor Plan Heatmap -->
+      <div class="panel panel-map" id="panelMap">
+        <div class="panel-header">
+          <h2 class="panel-title">🏪 Store Floor · Live Heatmap</h2>
+          <div class="panel-badge" id="heatmapConfidence">—</div>
+        </div>
+        <div class="map-container">
+          <svg class="store-map" id="storeMap" viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Store boundary -->
+            <rect x="10" y="10" width="780" height="460" rx="12" fill="#0d0f1a" stroke="#2a2d3e" stroke-width="2"/>
+
+            <!-- ── North Wall (top) ── -->
+            <text x="400" y="32" text-anchor="middle" class="map-wall-label">◀ NORTH WALL (SKINCARE) ▶</text>
+
+            <!-- North shelf zones -->
+            <g id="zone-ZONE_EB_KOREAN" class="map-zone" data-zone="ZONE_EB_KOREAN" data-label="EB Korean">
+              <rect x="20" y="38" width="88" height="52" rx="6"/>
+              <text x="64" y="60" text-anchor="middle" class="map-zone-brand">EB</text>
+              <text x="64" y="74" text-anchor="middle" class="map-zone-sub">Korean</text>
+            </g>
+            <g id="zone-ZONE_TFS" class="map-zone" data-zone="ZONE_TFS" data-label="The Face Shop">
+              <rect x="112" y="38" width="88" height="52" rx="6"/>
+              <text x="156" y="60" text-anchor="middle" class="map-zone-brand">TFS</text>
+              <text x="156" y="74" text-anchor="middle" class="map-zone-sub">Face Shop</text>
+            </g>
+            <g id="zone-ZONE_GV" class="map-zone" data-zone="ZONE_GV" data-label="Good Vibes">
+              <rect x="204" y="38" width="88" height="52" rx="6"/>
+              <text x="248" y="60" text-anchor="middle" class="map-zone-brand">GV</text>
+              <text x="248" y="74" text-anchor="middle" class="map-zone-sub">Good Vibes</text>
+            </g>
+            <g id="zone-ZONE_DERMDOC" class="map-zone" data-zone="ZONE_DERMDOC" data-label="DermDoc">
+              <rect x="296" y="38" width="88" height="52" rx="6"/>
+              <text x="340" y="60" text-anchor="middle" class="map-zone-brand">DD</text>
+              <text x="340" y="74" text-anchor="middle" class="map-zone-sub">DermDoc</text>
+            </g>
+            <g id="zone-ZONE_MINIMALIST" class="map-zone" data-zone="ZONE_MINIMALIST" data-label="Minimalist">
+              <rect x="388" y="38" width="88" height="52" rx="6"/>
+              <text x="432" y="60" text-anchor="middle" class="map-zone-brand">MIN</text>
+              <text x="432" y="74" text-anchor="middle" class="map-zone-sub">Minimalist</text>
+            </g>
+            <g id="zone-ZONE_AQUALOGICA" class="map-zone" data-zone="ZONE_AQUALOGICA" data-label="Aqualogica">
+              <rect x="480" y="38" width="88" height="52" rx="6"/>
+              <text x="524" y="60" text-anchor="middle" class="map-zone-brand">AQ</text>
+              <text x="524" y="74" text-anchor="middle" class="map-zone-sub">Aqualogica</text>
+            </g>
+            <g id="zone-ZONE_LAKME_SKIN" class="map-zone" data-zone="ZONE_LAKME_SKIN" data-label="Lakme Skin">
+              <rect x="572" y="38" width="88" height="52" rx="6"/>
+              <text x="616" y="60" text-anchor="middle" class="map-zone-brand">LK</text>
+              <text x="616" y="74" text-anchor="middle" class="map-zone-sub">Lakme Skin</text>
+            </g>
+            <g id="zone-ZONE_ACCESSORIES" class="map-zone" data-zone="ZONE_ACCESSORIES" data-label="Accessories">
+              <rect x="664" y="38" width="116" height="52" rx="6"/>
+              <text x="722" y="60" text-anchor="middle" class="map-zone-brand">ACC</text>
+              <text x="722" y="74" text-anchor="middle" class="map-zone-sub">Accessories</text>
+            </g>
+
+            <!-- ── Entry (left wall) ── -->
+            <g id="zone-ZONE_ENTRY_EXIT" class="map-zone map-zone-entry" data-zone="ZONE_ENTRY_EXIT" data-label="Entry / Exit">
+              <rect x="10" y="200" width="60" height="100" rx="6"/>
+              <text x="40" y="242" text-anchor="middle" class="map-zone-brand" transform="rotate(-90,40,242)">ENTRY</text>
+            </g>
+            <text x="22" y="195" class="map-wall-label" transform="rotate(-90,22,300)">← ENTRY</text>
+
+            <!-- ── Centre Floor ── -->
+            <g id="zone-ZONE_FOH" class="map-zone map-zone-floor" data-zone="ZONE_FOH" data-label="Front of House">
+              <rect x="90" y="130" width="400" height="120" rx="8"/>
+              <text x="290" y="185" text-anchor="middle" class="map-zone-brand">F.O.H</text>
+              <text x="290" y="202" text-anchor="middle" class="map-zone-sub">Front of House</text>
+            </g>
+
+            <g id="zone-ZONE_MAKEUP_UNIT" class="map-zone map-zone-service" data-zone="ZONE_MAKEUP_UNIT" data-label="Makeup Unit">
+              <rect x="200" y="265" width="200" height="80" rx="8"/>
+              <text x="300" y="300" text-anchor="middle" class="map-zone-brand">💄 Makeup Unit</text>
+              <text x="300" y="316" text-anchor="middle" class="map-zone-sub">2 chairs</text>
+            </g>
+
+            <g id="zone-ZONE_FRAGRANCE" class="map-zone" data-zone="ZONE_FRAGRANCE" data-label="Fragrance">
+              <rect x="90" y="265" width="104" height="80" rx="8"/>
+              <text x="142" y="300" text-anchor="middle" class="map-zone-brand">🌸</text>
+              <text x="142" y="316" text-anchor="middle" class="map-zone-sub">Fragrance</text>
+            </g>
+
+            <g id="zone-ZONE_NAIL" class="map-zone map-zone-service" data-zone="ZONE_NAIL" data-label="Nail Unit">
+              <rect x="408" y="265" width="104" height="80" rx="8"/>
+              <text x="460" y="300" text-anchor="middle" class="map-zone-brand">💅</text>
+              <text x="460" y="316" text-anchor="middle" class="map-zone-sub">Nail Unit</text>
+            </g>
+
+            <!-- ── Billing (right side) ── -->
+            <g id="zone-ZONE_CASH_COUNTER" class="map-zone map-zone-billing" data-zone="ZONE_CASH_COUNTER" data-label="Cash Counter">
+              <rect x="600" y="160" width="160" height="100" rx="8"/>
+              <text x="680" y="205" text-anchor="middle" class="map-zone-brand">🧾</text>
+              <text x="680" y="222" text-anchor="middle" class="map-zone-sub">Cash Counter</text>
+            </g>
+
+            <g id="zone-ZONE_PMU" class="map-zone map-zone-service" data-zone="ZONE_PMU" data-label="PMU">
+              <rect x="630" y="275" width="100" height="70" rx="8"/>
+              <text x="680" y="310" text-anchor="middle" class="map-zone-brand">✨ PMU</text>
+            </g>
+
+            <g id="zone-ZONE_LED_PANEL" class="map-zone" data-zone="ZONE_LED_PANEL" data-label="55&quot; LED Panel">
+              <rect x="740" y="130" width="40" height="80" rx="6"/>
+              <text x="760" y="173" text-anchor="middle" class="map-zone-sub" transform="rotate(90,760,173)">LED</text>
+            </g>
+
+            <!-- ── South Wall (bottom) ── -->
+            <text x="400" y="466" text-anchor="middle" class="map-wall-label">◀ SOUTH WALL (MAKEUP) ▶</text>
+
+            <g id="zone-ZONE_MAYBELLINE" class="map-zone" data-zone="ZONE_MAYBELLINE" data-label="Maybelline">
+              <rect x="20" y="395" width="100" height="52" rx="6"/>
+              <text x="70" y="417" text-anchor="middle" class="map-zone-brand">MBL</text>
+              <text x="70" y="432" text-anchor="middle" class="map-zone-sub">Maybelline</text>
+            </g>
+            <g id="zone-ZONE_FACES" class="map-zone" data-zone="ZONE_FACES" data-label="Faces Canada">
+              <rect x="124" y="395" width="100" height="52" rx="6"/>
+              <text x="174" y="417" text-anchor="middle" class="map-zone-brand">FC</text>
+              <text x="174" y="432" text-anchor="middle" class="map-zone-sub">Faces CA</text>
+            </g>
+            <g id="zone-ZONE_LAKME" class="map-zone" data-zone="ZONE_LAKME" data-label="Lakme Makeup">
+              <rect x="228" y="395" width="100" height="52" rx="6"/>
+              <text x="278" y="417" text-anchor="middle" class="map-zone-brand">LK</text>
+              <text x="278" y="432" text-anchor="middle" class="map-zone-sub">Lakme</text>
+            </g>
+            <g id="zone-ZONE_COLORBAR" class="map-zone" data-zone="ZONE_COLORBAR" data-label="Colorbar + Sugar">
+              <rect x="332" y="395" width="100" height="52" rx="6"/>
+              <text x="382" y="417" text-anchor="middle" class="map-zone-brand">CLR</text>
+              <text x="382" y="432" text-anchor="middle" class="map-zone-sub">Colorbar+Sugar</text>
+            </g>
+            <g id="zone-ZONE_SWISS_RENEE" class="map-zone" data-zone="ZONE_SWISS_RENEE" data-label="Swiss+Renee+NY Bae">
+              <rect x="436" y="395" width="100" height="52" rx="6"/>
+              <text x="486" y="417" text-anchor="middle" class="map-zone-brand">SWR</text>
+              <text x="486" y="432" text-anchor="middle" class="map-zone-sub">Swiss+Renee</text>
+            </g>
+            <g id="zone-ZONE_ALPS" class="map-zone" data-zone="ZONE_ALPS" data-label="Alps Goodness">
+              <rect x="540" y="395" width="100" height="52" rx="6"/>
+              <text x="590" y="417" text-anchor="middle" class="map-zone-brand">ALPS</text>
+              <text x="590" y="432" text-anchor="middle" class="map-zone-sub">Alps Good.</text>
+            </g>
+            <g id="zone-ZONE_STREAX" class="map-zone" data-zone="ZONE_STREAX" data-label="Streax">
+              <rect x="644" y="395" width="136" height="52" rx="6"/>
+              <text x="712" y="417" text-anchor="middle" class="map-zone-brand">STX</text>
+              <text x="712" y="432" text-anchor="middle" class="map-zone-sub">Streax</text>
+            </g>
+
+            <!-- Backlit display -->
+            <g id="zone-ZONE_BACKLIT" class="map-zone" data-zone="ZONE_BACKLIT" data-label="Backlit Display">
+              <rect x="75" y="353" width="110" height="38" rx="6"/>
+              <text x="130" y="375" text-anchor="middle" class="map-zone-sub">🌟 Backlit</text>
+            </g>
+
+            <!-- Tooltip -->
+            <g id="mapTooltip" style="display:none">
+              <rect id="tooltipBg" x="0" y="0" width="140" height="44" rx="6" fill="#1e2235" stroke="#7c3aed" stroke-width="1"/>
+              <text id="tooltipTitle" x="10" y="18" class="tooltip-title">Zone</text>
+              <text id="tooltipVisits" x="10" y="35" class="tooltip-sub">— visits</text>
+            </g>
+          </svg>
+
+          <!-- Heatmap legend -->
+          <div class="heatmap-legend">
+            <span class="legend-label">Cold</span>
+            <div class="legend-gradient"></div>
+            <span class="legend-label">Hot</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conversion Funnel -->
+      <div class="panel panel-funnel" id="panelFunnel">
+        <div class="panel-header">
+          <h2 class="panel-title">🔽 Conversion Funnel</h2>
+          <div class="panel-badge" id="overallConversion">—</div>
+        </div>
+        <div class="funnel-container" id="funnelContainer">
+          <div class="funnel-loading">Loading funnel…</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Bottom Row: Zone Dwell + Anomalies + Hourly ── -->
+    <section class="bottom-row">
+
+      <!-- Zone Dwell Table -->
+      <div class="panel panel-dwell" id="panelDwell">
+        <div class="panel-header">
+          <h2 class="panel-title">🔥 Zone Dwell Times</h2>
+          <span class="panel-hint">Avg time per zone today</span>
+        </div>
+        <div class="dwell-table-wrap">
+          <table class="dwell-table" id="dwellTable">
+            <thead>
+              <tr>
+                <th>Zone</th>
+                <th>Avg Dwell</th>
+                <th>Visits</th>
+                <th>Heat</th>
+              </tr>
+            </thead>
+            <tbody id="dwellTableBody">
+              <tr><td colspan="4" class="loading-cell">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Hourly Traffic Chart -->
+      <div class="panel panel-hourly" id="panelHourly">
+        <div class="panel-header">
+          <h2 class="panel-title">📈 Hourly Traffic</h2>
+          <span class="panel-hint">Peak: 19:00–20:00</span>
+        </div>
+        <div class="hourly-chart-wrap">
+          <canvas id="hourlyChart" width="340" height="180"></canvas>
+        </div>
+      </div>
+
+      <!-- Anomaly Feed -->
+      <div class="panel panel-anomalies" id="panelAnomalies">
+        <div class="panel-header">
+          <h2 class="panel-title">⚠️ Live Alerts</h2>
+          <div class="anomaly-count" id="anomalyCount">0</div>
+        </div>
+        <div class="anomaly-feed" id="anomalyFeed">
+          <div class="anomaly-empty">
+            <span class="anomaly-ok">✅ No active anomalies</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Camera Status Bar ── -->
+    <section class="camera-bar" id="cameraBar" aria-label="Camera feed status">
+      <div class="camera-bar-title">📷 Camera Feeds</div>
+      <div class="camera-badges" id="cameraBadges">
+        <div class="cam-badge" id="cam-CAM_ENTRY_01"><span class="cam-dot"></span>Entry</div>
+        <div class="cam-badge" id="cam-CAM_FOH_01"><span class="cam-dot"></span>FOH</div>
+        <div class="cam-badge" id="cam-CAM_NORTH_WALL_01"><span class="cam-dot"></span>North Wall</div>
+        <div class="cam-badge" id="cam-CAM_SOUTH_WALL_01"><span class="cam-dot"></span>South Wall</div>
+        <div class="cam-badge" id="cam-CAM_BILLING_01"><span class="cam-dot"></span>Billing</div>
+      </div>
+      <div class="last-refresh" id="lastRefresh">—</div>
+    </section>
+
+  </main>
+
+  <!-- Zone tooltip overlay -->
+  <div class="zone-tooltip" id="zoneTooltip" style="display:none">
+    <div class="zt-name" id="ztName">—</div>
+    <div class="zt-stats" id="ztStats">—</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

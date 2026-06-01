@@ -1,0 +1,73 @@
+{
+  "store_id": "ST1008",
+  "store_name": "Brigade_Bangalore",
+  "city": "Bangalore",
+  "open_hours": { "open": "12:00", "close": "22:00" },
+  "cameras": [
+    {
+      "camera_id": "CAM_ENTRY_01",
+      "type": "entry_exit",
+      "description": "Glass sliding door on west wall — entry/exit threshold",
+      "file": "CAM 1.mp4",
+      "entry_line": { "x1": 0.0, "y1": 0.5, "x2": 0.15, "y2": 0.5 },
+      "entry_direction": "right_to_left_is_exit",
+      "covers_zones": ["ZONE_ENTRY_EXIT", "ZONE_BACKLIT"]
+    },
+    {
+      "camera_id": "CAM_FOH_01",
+      "type": "floor",
+      "description": "Central floor — F.O.H aisle and Makeup Unit island",
+      "file": "CAM 2.mp4",
+      "covers_zones": ["ZONE_FOH", "ZONE_MAKEUP_UNIT", "ZONE_FRAGRANCE", "ZONE_NAIL"]
+    },
+    {
+      "camera_id": "CAM_NORTH_WALL_01",
+      "type": "shelf",
+      "description": "North wall shelves — skincare brands",
+      "file": "CAM 3.mp4",
+      "covers_zones": ["ZONE_EB_KOREAN", "ZONE_TFS", "ZONE_GV", "ZONE_DERMDOC",
+                       "ZONE_MINIMALIST", "ZONE_AQUALOGICA", "ZONE_LAKME_SKIN", "ZONE_ACCESSORIES"]
+    },
+    {
+      "camera_id": "CAM_SOUTH_WALL_01",
+      "type": "shelf",
+      "description": "South wall shelves — makeup brands",
+      "file": "CAM 4.mp4",
+      "covers_zones": ["ZONE_MAYBELLINE", "ZONE_FACES", "ZONE_LAKME", "ZONE_COLORBAR",
+                       "ZONE_SWISS_RENEE", "ZONE_ALPS", "ZONE_STREAX"]
+    },
+    {
+      "camera_id": "CAM_BILLING_01",
+      "type": "billing",
+      "description": "Cash counter and queue area — right side of store",
+      "file": "CAM 5.mp4",
+      "covers_zones": ["ZONE_CASH_COUNTER", "ZONE_PMU", "ZONE_LED_PANEL"]
+    }
+  ],
+  "zones": [
+    { "zone_id": "ZONE_ENTRY_EXIT",   "name": "Entry / Exit",           "type": "entry",   "sku_zone": null },
+    { "zone_id": "ZONE_FOH",          "name": "Front of House",          "type": "floor",   "sku_zone": null },
+    { "zone_id": "ZONE_MAKEUP_UNIT",  "name": "Makeup Unit",             "type": "service", "sku_zone": "MAKEUP" },
+    { "zone_id": "ZONE_FRAGRANCE",    "name": "Fragrance",               "type": "shelf",   "sku_zone": "FRAGRANCE" },
+    { "zone_id": "ZONE_NAIL",         "name": "Nail Unit",               "type": "service", "sku_zone": "NAIL" },
+    { "zone_id": "ZONE_PMU",          "name": "PMU",                     "type": "service", "sku_zone": "PMU" },
+    { "zone_id": "ZONE_CASH_COUNTER", "name": "Cash Counter",            "type": "billing", "sku_zone": null },
+    { "zone_id": "ZONE_EB_KOREAN",    "name": "EB Korean",               "type": "shelf",   "sku_zone": "SKIN_KOREAN" },
+    { "zone_id": "ZONE_TFS",          "name": "The Face Shop",           "type": "shelf",   "sku_zone": "SKIN" },
+    { "zone_id": "ZONE_GV",           "name": "Good Vibes",              "type": "shelf",   "sku_zone": "SKIN" },
+    { "zone_id": "ZONE_DERMDOC",      "name": "DermDoc",                 "type": "shelf",   "sku_zone": "SKIN" },
+    { "zone_id": "ZONE_MINIMALIST",   "name": "Minimalist",              "type": "shelf",   "sku_zone": "SKIN" },
+    { "zone_id": "ZONE_AQUALOGICA",   "name": "Aqualogica",              "type": "shelf",   "sku_zone": "SKIN" },
+    { "zone_id": "ZONE_LAKME_SKIN",   "name": "Lakme Skin",              "type": "shelf",   "sku_zone": "SKIN" },
+    { "zone_id": "ZONE_ACCESSORIES",  "name": "Accessories",             "type": "shelf",   "sku_zone": "ACCESSORIES" },
+    { "zone_id": "ZONE_BACKLIT",      "name": "Backlit Display",         "type": "display", "sku_zone": null },
+    { "zone_id": "ZONE_MAYBELLINE",   "name": "Maybelline",              "type": "shelf",   "sku_zone": "MAKEUP" },
+    { "zone_id": "ZONE_FACES",        "name": "Faces Canada",            "type": "shelf",   "sku_zone": "MAKEUP" },
+    { "zone_id": "ZONE_LAKME",        "name": "Lakme Makeup",            "type": "shelf",   "sku_zone": "MAKEUP" },
+    { "zone_id": "ZONE_COLORBAR",     "name": "Colorbar + Sugar",        "type": "shelf",   "sku_zone": "MAKEUP" },
+    { "zone_id": "ZONE_SWISS_RENEE",  "name": "Swiss + Renee + NY Bae", "type": "shelf",   "sku_zone": "MAKEUP" },
+    { "zone_id": "ZONE_ALPS",         "name": "Alps Goodness",           "type": "shelf",   "sku_zone": "SKIN" },
+    { "zone_id": "ZONE_STREAX",       "name": "Streax",                  "type": "shelf",   "sku_zone": "HAIR" },
+    { "zone_id": "ZONE_LED_PANEL",    "name": "55\" LED Panel",          "type": "display", "sku_zone": null }
+  ]
+}
