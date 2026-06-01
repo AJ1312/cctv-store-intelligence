@@ -1,5 +1,4 @@
-# Purplle Store Intelligence — Brigade Bangalore (ST1008)
-
+# CCTV DETECTION SYSTEM
 > **Real-time retail analytics system** — 5 CCTV cameras · YOLOv8n detection · FastAPI backend · Premium web dashboard.
 
 This repository comes pre-packaged with:
