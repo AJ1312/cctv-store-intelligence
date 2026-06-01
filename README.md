@@ -17,7 +17,7 @@ To clone, set up, and launch the system:
 
 ```bash
 # 1. Clone and enter directory
-git clone <your-repo-url> && cd store-intelligence
+git clone https://github.com/AJ1312/purplle-store-intelligence.git && cd store-intelligence
 
 # 2. Start the application services (Runs API on 8000 and Dashboard on 3000)
 chmod +x run.sh && ./run.sh
