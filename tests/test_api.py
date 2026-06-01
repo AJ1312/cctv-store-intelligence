@@ -42,7 +42,7 @@ def make_event(**kwargs) -> dict:
         "store_id":   STORE,
         "camera_id":  "CAM_ENTRY_01",
         "visitor_id": "VIS_TEST01",
-        "event_type": "ENTRY",
+        "event_type": "ZONE_ENTER",
         "timestamp":  datetime.now(timezone.utc).isoformat(),
         "zone_id":    None,
         "dwell_ms":   0,
@@ -69,7 +69,7 @@ def test_ingest_idempotency(client):
 # ── Test 2: Zero-purchase conversion_rate ──────────────────────────────────────
 def test_metrics_zero_purchase(client):
     """No POS data → conversion_rate = 0, not null or crash."""
-    ev = make_event(visitor_id="VIS_ZERO", event_type="ENTRY")
+    ev = make_event(visitor_id="VIS_ZERO", event_type="ZONE_ENTER")
     client.post("/events/ingest", json={"events": [ev]})
     r = client.get(f"/stores/{STORE}/metrics?date={DATE}")
     assert r.status_code == 200
@@ -95,7 +95,7 @@ def test_funnel_reentry_dedup(client):
     """ENTRY + EXIT + REENTRY for same visitor_id → counted as 1 entrant in funnel."""
     vid = "VIS_REENTRY01"
     events = [
-        make_event(visitor_id=vid, event_type="ENTRY"),
+        make_event(visitor_id=vid, event_type="ZONE_ENTER"),
         make_event(visitor_id=vid, event_type="EXIT"),
         make_event(visitor_id=vid, event_type="REENTRY"),
     ]
@@ -143,7 +143,7 @@ def test_group_entry_distinct_ids(client):
     """3 simultaneous ENTRY events with distinct visitor_ids → 3 unique visitors."""
     ts = datetime.now(timezone.utc).isoformat()
     evs = [
-        make_event(visitor_id=f"VIS_GROUP{i:02d}", event_type="ENTRY", timestamp=ts)
+        make_event(visitor_id=f"VIS_GROUP{i:02d}", event_type="ZONE_ENTER", timestamp=ts)
         for i in range(3)
     ]
     r = client.post("/events/ingest", json={"events": evs})
