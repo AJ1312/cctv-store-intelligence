@@ -7,6 +7,7 @@ python-dotenv==1.0.1
 psycopg2-binary==2.9.9
 ultralytics>=8.2
 supervision>=0.21
+opencv-python==4.9.0.80
 opencv-python-headless==4.9.0.80
 shapely>=2.0
 numpy==1.26.4
