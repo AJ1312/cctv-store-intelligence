@@ -16,10 +16,12 @@ Below is the live high-fidelity screenshot of the dashboard interface, styled in
 
 The top section of the dashboard displays 5 real-time metrics summarizing the store's performance for the selected date.
 
+![KPI Row](screenshots/kpi_row.png)
+
 ### 1.1 Unique Visitors
 - **Description**: The count of distinct customer sessions detected throughout the store.
 - **Algorithm**: Tracks unique `visitor_id` tokens. To filter out noise, visitors are counted based on zone entrance events (`ZONE_ENTER`), ensuring they step into a retail zone.
-- **Staff Exclusion**: Employees are recognized by their magenta aprons and automatically excluded from this card.
+- **Staff Exclusion**: Employees are recognized by their upper-body magenta aprons and automatically excluded from this card.
 
 ### 1.2 Converted Visitors
 - **Description**: The number of unique visitors who successfully completed a purchase.
@@ -43,6 +45,8 @@ The top section of the dashboard displays 5 real-time metrics summarizing the st
 
 The central component of the dashboard is an interactive layout map of the Brigade Bangalore (ST1008) outlet.
 
+![Store Heatmap](screenshots/store_heatmap.png)
+
 - **Hand-Authored SVG**: Scaled precisely to the store's physical dimensions based on the architectural CAD layout.
 - **Zone Highlights**: Represents all **23 distinct zones** (skincare counters, makeup islands, cash desk, fragrance sections).
 - **HSL Interpolation Heatmap**: Zones dynamically adjust their color based on their normalized **Visit Score (0–100)**:
@@ -59,6 +63,8 @@ The central component of the dashboard is an interactive layout map of the Briga
 
 A vertical, step-down chart visualizing customer progression and identifying where sales leaks occur.
 
+![Conversion Funnel](screenshots/conversion_funnel.png)
+
 - **Stage 1: Store Entry**: Baseline of all unique, non-staff visitors.
 - **Stage 2: Product Browse**: Visitors who spent at least 3 seconds browsing standard cosmetic/skincare zones.
 - **Stage 3: Reached Billing**: Visitors who approached the cashier desk.
@@ -71,6 +77,8 @@ A vertical, step-down chart visualizing customer progression and identifying whe
 
 A real-time monitoring panel that flags operational irregularities and alerts staff with color-coded severity badges.
 
+![Live Alerts](screenshots/anomaly_feed.png)
+
 - **Queue Spike (CRITICAL/WARN)**: Triggered when the billing queue exceeds 4 shoppers. Prompts staff to open a secondary mobile billing device.
 - **Conversion Drop (WARN)**: Triggered if the conversion rate falls below `20%` during open hours. Suggests deploying floor associates to assist customers in high-dwell zones.
 - **Dead Zone (INFO)**: Triggered if a primary product category area sees zero activity for 30+ minutes. Alerts staff to inspect the section for accessibility or display defects.
@@ -81,12 +89,24 @@ A real-time monitoring panel that flags operational irregularities and alerts st
 ## 5. Dwell Time Leaderboard
 
 A tabular view listing all zones sorted by engagement intensity.
+
+![Dwell Leaderboard](screenshots/dwell_leaderboard.png)
+
 - Shows total visit counts and average dwell times.
-- Features horizontal, colored inline heatbars. A quick glance immediately shows which brands (e.g., Lakme, Minimalist, TFS) hold customer attention the longest (longest average dwell in the trial run was **Fragrance** at 62.9 seconds).
+- Features horizontal, colored inline heatbars. A quick glance immediately shows which brands (e.g., Lakme, Minimalist, TFS) hold customer attention the longest.
 
 ---
 
 ## 6. Hourly Traffic & Camera Health Hub
 
-- **Hourly Traffic Chart**: A canvas-rendered bar chart depicting visitor entries per hour, highlighting peak shopping slots (typically 19:00 - 20:00).
-- **Camera Health Bar**: Shows connection latencies and lag status (e.g., OK or STALE) for all 5 CCTV feeds, ensuring hardware integrity.
+This section details traffic density patterns and monitors camera connection health.
+
+### 6.1 Hourly Traffic Chart
+A canvas-rendered bar chart depicting visitor entries per hour, highlighting peak shopping slots.
+
+![Hourly Traffic](screenshots/hourly_traffic.png)
+
+### 6.2 Camera Health Bar
+Shows connection latencies and lag status (e.g., OK or STALE) for all 5 CCTV feeds, ensuring hardware integrity.
+
+![Camera Health](screenshots/camera_health.png)
