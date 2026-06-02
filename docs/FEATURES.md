@@ -8,7 +8,7 @@ This document describes all the core software features, analytical metrics, and 
 
 Below is the live high-fidelity screenshot of the dashboard interface, styled in a dark glassmorphism theme using Purplle's magenta design language.
 
-![Dashboard Overview](dashboard_overview.png)
+![Dashboard Overview](screenshots/dashboard_overview.png)
 
 ---
 
