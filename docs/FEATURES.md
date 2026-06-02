@@ -8,6 +8,8 @@ This document describes all the core software features, analytical metrics, and 
 
 Below is the live high-fidelity screenshot of the dashboard interface, styled in a dark glassmorphism theme using Purplle's magenta design language.
 
+🎥 **[Watch the Live Walkthrough Video](screenshots/dashboard_demo.webm)** — A recorded video walkthrough demonstrating the layout, scrolling behavior, tooltips, and animations in action.
+
 ![Dashboard Overview](screenshots/dashboard_overview.png)
 
 ---
